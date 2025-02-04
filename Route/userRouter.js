@@ -18,7 +18,7 @@ userRouter.post("/signup", async (req, res) => {
       process.env.HOOK_HIDDEN_CODE,
       { expiresIn: "70h" }
     );
-    res.json({ zipCode});
+    res.json(token);
   } catch (error) {
     res.send({ error });
     console.log(error);
