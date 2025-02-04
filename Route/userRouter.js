@@ -14,7 +14,7 @@ userRouter.post("/signup", async (req, res) => {
     });
  
     const token = jwt.sign(
-      { userId: newUser._id, phoneNumber: newUser.phoneNumber },
+      { userId: newUser._id, phoneNumber: newUser.phoneNumber , zipCode:zipCode},
       process.env.HOOK_HIDDEN_CODE,
       { expiresIn: "70h" }
     );
