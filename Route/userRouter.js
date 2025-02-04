@@ -8,7 +8,7 @@ const jwt = require("jsonwebtoken");
 userRouter.post("/signup", async (req, res) => {
   const { phoneNumber } = req.body;
   try {   
-    const zipCode = Math.floor(Math.random * 100000)
+    const zipCode = Math.floor(100000 + Math.random() * 900000).toString()
     const newUser = await userModel.create({
       phoneNumber
     });
@@ -18,7 +18,7 @@ userRouter.post("/signup", async (req, res) => {
       process.env.HOOK_HIDDEN_CODE,
       { expiresIn: "70h" }
     );
-    res.json({ token });
+    res.json({ zipCode});
   } catch (error) {
     res.send({ error });
     console.log(error);
