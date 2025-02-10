@@ -71,4 +71,19 @@ categoryRouter.post("/adminAddNewCategory", async (req, res) => {
       console.log(error);
     }
   });
+  categoryRouter.get("/adminGetSubCategory/:categoryId", async (req, res) => {
+  const { categoryId } = req.params;
+  console.log(categoryId, "hahahahahahaha");
+  try {
+    // const response = await postModel.findById(categoryId, "comments");
+    const comment = await categoryModel.findById(categoryId).populate({
+      path: "subCategory",
+      select: "subCategoryName subSubCategory",
+      },);
+    res.send(comment);
+  } catch (error) {
+    res.send({ error });
+    console.log(error);
+  }
+});
 module.exports = categoryRouter;
