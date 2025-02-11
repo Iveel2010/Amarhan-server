@@ -3,7 +3,6 @@ const categoryRouter = Route();
 const { categoryModel } = require("../model/categorySchema");
 const { subCategoryModel } = require("../model/subCategorySchema");
 const { subSubCategoryModel } = require("../model/subSubCategorySchema");
-const { subSubSubCategoryModel } = require("../model/subSubSubCategorySchema");
 const { choosesModel } = require("../model/choosesSchema");
 categoryRouter.post("/adminAddNewCategory", async (req, res) => {
     const { categoryName } = req.body;
@@ -71,16 +70,47 @@ categoryRouter.post("/adminAddNewCategory", async (req, res) => {
       console.log(error);
     }
   });
+
   categoryRouter.get("/adminGetSubCategory/:categoryId", async (req, res) => {
   const { categoryId } = req.params;
   console.log(categoryId, "hahahahahahaha");
   try {
     // const response = await postModel.findById(categoryId, "comments");
-    const comment = await categoryModel.findById(categoryId).populate({
+    const categoryData = await categoryModel.findById(categoryId).populate({
       path: "subCategory",
       select: "subCategoryName subSubCategory",
       },);
-    res.send(comment);
+    res.send(categoryData);
+  } catch (error) {
+    res.send({ error });
+    console.log(error);
+  }
+});
+categoryRouter.get("/adminGetSubSubCategory/:subCategoryId", async (req, res) => {
+  const { subCategoryId } = req.params;
+  console.log(subCategoryId, "hahahahahahaha");
+  try {
+    // const response = await postModel.findById(subCategoryId, "comments");
+    const subCategoryData = await subCategoryModel.findById(subCategoryId).populate({
+      path: "subSubCategory",
+      select: "chooses subSubCategoryName",
+      },);
+    res.send(subCategoryData);
+  } catch (error) {
+    res.send({ error });
+    console.log(error);
+  }
+});
+categoryRouter.get("/adminGetSubSubCategoryChooses/:SubSubCategoryId", async (req, res) => {
+  const { SubSubCategoryId } = req.params;
+  console.log(SubSubCategoryId, "hahahahahahaha");
+  try {
+    // const response = await postModel.findById(SubSubCategoryId, "comments");
+    const subSubCategoryData = await subSubCategoryModel.findById(SubSubCategoryId).populate({
+      path: "chooses",
+      select: "choosesName choosesOption"
+      },);
+    res.send(subSubCategoryData);
   } catch (error) {
     res.send({ error });
     console.log(error);
